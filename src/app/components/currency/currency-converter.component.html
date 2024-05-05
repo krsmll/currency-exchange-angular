@@ -1,0 +1,53 @@
+<div class="bg-gray-50 flex items-center justify-center min-h-screen">
+	<div class="bg-white p-6 rounded-lg shadow-md">
+		<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="space-y-4">
+			<div class="flex flex-col">
+				<label for="amount" class="text-gray-700">Amount</label>
+				<input id="amount" type="text" placeholder="1" formControlName="amount"
+					   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+			</div>
+			<div class="flex items-center space-x-4">
+				<div class="flex flex-col flex-1">
+					<label for="from" class="text-gray-700">From</label>
+					<div
+						class="flex items-center border-gray-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 rounded-md shadow-sm border p-2">
+						<select id="from" class="flex-1 bg-transparent focus:outline-none" formControlName="from">
+							<option value="" disabled>Select Currency</option>
+							@for (currency of currencies; track currency.code) {
+								<option [ngValue]="currency.code">{{ currency.code }} – {{ currency.name }}</option>
+							}
+						</select>
+					</div>
+				</div>
+				<button (click)="swapValues()" type="button" class="rounded-full border border-gray-300 pt-3 pl-3 pr-3 pb-2 mt-6">
+					<ng-icon name="bootstrapArrowLeftRight"></ng-icon>
+				</button>
+				<div class="flex flex-col flex-1">
+					<label for="to" class="text-gray-700">To</label>
+					<div
+						class="flex items-center border-gray-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 rounded-md shadow-sm border p-2">
+						<select id="to" class="flex-1 bg-transparent focus:outline-none" formControlName="to">
+							<option value="" disabled>Select Currency</option>
+							@for (currency of currencies; track currency.code) {
+								<option [ngValue]="currency.code">{{ currency.code }} – {{ currency.name }}</option>
+							}
+						</select>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md shadow-sm">
+				Convert
+			</button>
+		</form>
+		@if (conversionResult) {
+			<div class="mt-4">
+				<p class="text-gray-700 font-medium">Rate:</p>
+				<p id="rate" class="text-base text-gray-900 font-light mt-2 mb-4">1 {{ conversionResult.from.code }} to {{ conversionResult.rate }} {{ conversionResult.to.code }}</p>
+				<p class="text-gray-700 font-medium">Original Amount:</p>
+				<p id="original-amount" class="text-base text-gray-900 font-light mt-2 mb-4">{{ conversionResult.originalAmount }} {{ conversionResult.from.code }}</p>
+				<p class="text-gray-700 font-medium">Converted Amount:</p>
+				<p id="converted-amount" class="text-base text-gray-900 font-light mt-2 mb-4">{{ conversionResult.convertedAmount }} {{ conversionResult.to.code }}</p>
+			</div>
+		}
+	</div>
+</div>
