@@ -3,7 +3,7 @@ import { StoreService } from '../../services/store.service';
 import { CurrencyService } from '../../services/currency.service';
 import { ICurrency, IExchange } from '../../model/currency';
 import { Observable } from 'rxjs';
-import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { bootstrapArrowLeftRight } from '@ng-icons/bootstrap-icons';
@@ -56,7 +56,7 @@ export class CurrencyConverterComponent implements OnInit {
 
 		if (from && to && amount) {
 			this.convert(from, to, amount).subscribe((exchange) => {
-				this.conversionResult = exchange
+				this.conversionResult = exchange;
 			});
 		}
 	}

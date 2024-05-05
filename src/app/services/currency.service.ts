@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Config } from '../config/config';
-import {EMPTY, map, Observable, of} from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { ICurrencyList, IExchange } from '../model/currency';
 import { StoreService } from './store.service';
 

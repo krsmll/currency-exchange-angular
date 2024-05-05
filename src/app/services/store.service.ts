@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ICurrencyList} from "../model/currency";
+import { ICurrencyList } from '../model/currency';
 
 @Injectable({
 	providedIn: 'root',
