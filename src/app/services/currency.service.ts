@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Config } from '../config/config';
 import { map, Observable, of } from 'rxjs';
-import { ICurrencyList, IExchange } from '../model/currency';
+import { ICurrencyHistory, ICurrencyList, IExchange } from '../model/currency';
 import { StoreService } from './store.service';
 
 @Injectable({
@@ -28,6 +28,15 @@ export class CurrencyService {
 					return currencies;
 				}),
 			);
+	}
+
+	getCurrencyHistory(
+		from: string,
+		to: string,
+	): Observable<ICurrencyHistory> {
+		return this.http.get<ICurrencyHistory>(
+			`${this.config.API_URL}/currencies/history?from=${from}&to=${to}`,
+		);
 	}
 
 	convert(from: string, to: string, amount: number): Observable<IExchange> {

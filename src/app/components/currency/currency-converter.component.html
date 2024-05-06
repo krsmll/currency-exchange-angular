@@ -1,46 +1,68 @@
 <div class="bg-gray-50 flex items-center justify-center min-h-screen">
 	<div class="bg-white p-6 rounded-lg shadow-md">
-		<form (ngSubmit)="onSubmit()" [formGroup]="checkoutForm" class="space-y-4">
-			<div class="flex flex-col">
-				<label class="text-gray-700" for="amount">Amount</label>
-				<input class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" formControlName="amount" id="amount" placeholder="1"
-					   type="text">
+		@if (errors.length > 0) {
+			<div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+				<div>
+					<strong class="font-bold">Holy smokes!</strong>&nbsp;
+					<span class="block sm:inline">Something's a bit off.</span>
+				</div>
+				<ul class="mt-4 list-disc list-inside text-sm text-red-700">
+					@for (error of errors; track error) {
+						<li>{{ error }}</li>
+					}
+				</ul>
 			</div>
-			<div class="flex items-center space-x-4">
-				<div class="flex flex-col flex-1">
-					<label class="text-gray-700" for="from">From</label>
-					<div
-						class="flex items-center border-gray-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 rounded-md shadow-sm border p-2">
-						<select class="flex-1 bg-transparent focus:outline-none" formControlName="from" id="from">
-							<option disabled value="">Select Currency</option>
-							@for (currency of currencies; track currency.code) {
-								<option [ngValue]="currency.code">{{ currency.code }} – {{ currency.name }}</option>
-							}
-						</select>
+		}
+		<div class="space-y-4">
+			<form (ngSubmit)="onSubmit()" [formGroup]="checkoutForm" class="space-y-4">
+				<div class="flex flex-col">
+					<label class="text-gray-700" for="amount">Amount</label>
+					<input class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+						   formControlName="amount" id="amount" placeholder="1"
+						   type="text"
+						   required>
+				</div>
+				<div class="flex items-center space-x-4">
+					<div class="flex flex-col flex-1">
+						<label class="text-gray-700" for="from">From</label>
+						<div
+							class="flex items-center border-gray-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 rounded-md shadow-sm border p-2">
+							<select class="flex-1 bg-transparent focus:outline-none" formControlName="from" id="from"
+									required>
+								<option disabled value="">Select Currency</option>
+								@for (currency of currencies; track currency.code) {
+									<option [ngValue]="currency.code">{{ currency.code }} – {{ currency.name }}</option>
+								}
+							</select>
+						</div>
+					</div>
+					<button (click)="swapValues()" class="rounded-full border border-gray-300 pt-3 pl-3 pr-3 pb-2 mt-6"
+							type="button">
+						<ng-icon name="bootstrapArrowLeftRight"></ng-icon>
+					</button>
+					<div class="flex flex-col flex-1">
+						<label class="text-gray-700" for="to">To</label>
+						<div
+							class="flex items-center border-gray-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 rounded-md shadow-sm border p-2">
+							<select class="flex-1 bg-transparent focus:outline-none" formControlName="to" id="to" required>
+								<option disabled value="">Select Currency</option>
+								@for (currency of currencies; track currency.code) {
+									<option [ngValue]="currency.code">{{ currency.code }} – {{ currency.name }}</option>
+								}
+							</select>
+						</div>
 					</div>
 				</div>
-				<button (click)="swapValues()" class="rounded-full border border-gray-300 pt-3 pl-3 pr-3 pb-2 mt-6"
-						type="button">
-					<ng-icon name="bootstrapArrowLeftRight"></ng-icon>
+				<button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md shadow-sm" type="submit">
+					Convert
 				</button>
-				<div class="flex flex-col flex-1">
-					<label class="text-gray-700" for="to">To</label>
-					<div
-						class="flex items-center border-gray-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 rounded-md shadow-sm border p-2">
-						<select class="flex-1 bg-transparent focus:outline-none" formControlName="to" id="to">
-							<option disabled value="">Select Currency</option>
-							@for (currency of currencies; track currency.code) {
-								<option [ngValue]="currency.code">{{ currency.code }} – {{ currency.name }}</option>
-							}
-						</select>
-					</div>
-				</div>
-			</div>
-			<button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md shadow-sm" type="submit">
-				Convert
+			</form>
+			<button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md shadow-sm" (click)="showRateHistory()">
+				History
 			</button>
-		</form>
-		@if (conversionResult) {
+		</div>
+
+		@if (conversionResult && errors.length === 0) {
 			<div class="mt-4">
 				<p class="text-gray-700 font-medium">Rate:</p>
 				<p id="rate" class="text-base text-gray-900 font-light mt-2 mb-4">1 {{ conversionResult.from.code }}
@@ -53,5 +75,6 @@
 				   class="text-base text-gray-900 font-light mt-2 mb-4">{{ conversionResult.convertedAmount }} {{ conversionResult.to.code }}</p>
 			</div>
 		}
+
 	</div>
 </div>

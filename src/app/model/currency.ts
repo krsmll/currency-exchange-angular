@@ -21,3 +21,17 @@ export interface IExchange {
 	originalAmount: number;
 	convertedAmount: number;
 }
+
+export interface ICurrencyHistory {
+	from: ICurrency;
+	to: ICurrency;
+	fromUnix: number;
+	toUnix: number;
+	history: ICurrencyHistoryNode[];
+}
+
+export interface ICurrencyHistoryNode {
+	dateUnixSeconds: number;
+	date: string;
+	rate: number;
+}
