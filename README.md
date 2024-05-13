@@ -1,27 +1,44 @@
-# Exchange
+# Currency Exchange Homework for SEB
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
 
-## Development server
+## Installation:
+You need to have docker and docker-compose installed on your machine.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. Clone this repo.
+2. Clone https://github.com/krsmll/currency-exchange.
+3. Create this file in the same directory you cloned these repos to.
+```yaml
+version: '3.8'
 
-## Code scaffolding
+services:
+  backend:
+    build: ./currency-exchange/services/exchange
+    ports:
+      - "8080:8080"
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+  frontend:
+    build: ./currency-exchange-angular
+    ports:
+      - "4200:4200"
+```
+4. Run `docker-compose up`
 
-## Build
+That's it. Backend is running on port 8080 and frontend on port 4200.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Access them at `http://localhost:8080` and `http://localhost:4200` respectively.
 
-## Running unit tests
+## Swagger:
+Swagger is available at `/api/v1/swagger-ui/index.html`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Running tests:
+You need to have maven installed on your machine.
+```mvn clean test```
+or
+```mvn test```
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## What could be improved:
+- Add more tests
+- Add logging
+- Use Kubernetes, Helm for deployment but it's an overkill for a project of this size
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
